@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick login button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
@@ -54,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick signup button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
 
@@ -62,19 +60,15 @@ public class LoginActivity extends AppCompatActivity {
                 user.setUsername(username);
                 user.setPassword(password);
 
-                Log.i(TAG, "Username - " + username + " Password - " + password);
-
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
                             // Hooray! Let them use the app now.
                             goMainActivity();
-                            Log.i(TAG, "Sign up successful!");
                             Toast.makeText(LoginActivity.this, "Sign up sucessful", Toast.LENGTH_LONG).show();
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
-                            Log.e(TAG, "Sign up unsucessful.");
                             Toast.makeText(LoginActivity.this, "Issue with sign up. Username taken?", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -85,20 +79,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        Log.i(TAG, "Attempting to login user " + username + " and password:  " + password);
 
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e != null) {
                     //TODO: Better error handling
-                    Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // TODO: navigate to the main activity if the user has signed in properly
                 goMainActivity();
-                Log.i(TAG, "Success!");
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
 
 
