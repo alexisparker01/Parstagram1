@@ -43,6 +43,11 @@
         tools:layout_editor_absoluteY="106dp"
         tools:text="Logout" />
 
+    <Button
+        android:id="@+id/btnFeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Feed" />
 
 
 </LinearLayout>
