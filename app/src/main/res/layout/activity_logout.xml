@@ -4,25 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedActivity">
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeContainer"
-        android:layout_width="match_parent"
-        android:layout_height="643dp"
-        android:layout_marginTop="60dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPosts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp"
-            android:padding="8dp" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    tools:context=".LogoutActivity">
 
     <ImageView
         android:id="@+id/InstaTop"
@@ -40,11 +22,11 @@
         android:id="@+id/dmTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="115dp"
+        android:layout_marginStart="110dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/InstaTop"
-        android:scaleX="1"
-        android:scaleY="1"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
         app:srcCompat="@drawable/nav_inbox_paper_plane" />
 
     <ImageView
@@ -58,18 +40,18 @@
         android:id="@+id/feed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/swipeContainer"
+        android:layout_below="@+id/btnLogout"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="361dp"
         app:srcCompat="@drawable/instagram_home_outline_24" />
 
     <ImageView
         android:id="@+id/cam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/swipeContainer"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/btnLogout"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="360dp"
         android:layout_toEndOf="@+id/feed"
         app:srcCompat="@drawable/instagram_new_post_filled_24" />
 
@@ -77,12 +59,21 @@
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/swipeContainer"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/btnLogout"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="360dp"
         android:layout_toEndOf="@+id/cam2"
         app:srcCompat="@drawable/instagram_user_outline_24" />
 
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/InstaTop"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="273dp"
+        android:layout_toStartOf="@+id/dmTop"
+        android:backgroundTint="#AFAFAF"
+        android:text="LOGOUT" />
+
 </RelativeLayout>
-
-

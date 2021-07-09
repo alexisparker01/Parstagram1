@@ -1,16 +1,20 @@
 package com.example.parstagram;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,13 +35,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnLogout;
+
     public static final String TAG = "MainActivity";
     private EditText etDescription;
     private Button btnCaptureImage;
     private ImageView ivPostImage;
     private Button btnSubmit;
-    private Button btnFeed;
+
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -52,25 +56,15 @@ public class MainActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
-        btnLogout = findViewById(R.id.btnLogout);
-        btnFeed = findViewById(R.id.btnFeed);
-
-        btnFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, FeedActivity.class);
-                startActivity(i);
-            }
-        });
 
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+
+        queryPosts();
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 launchCamera(v);
             }
         });
-      //  queryPosts();
+
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +92,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // Define ActionBar object
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+
+        // Define ColorDrawable object and parse color
+        // using parseColor method
+        // with color hash code as its parameter
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#ffffff"));
+
+        // Set BackgroundDrawable
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + getString(R.string.app_name) + "</font>"));
 
     }
 
@@ -166,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
+                Toast.makeText(MainActivity.this,"Saved successfully!" , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -186,13 +197,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void logoutUser() {
-        ParseUser.logOut();
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-    }
 
 
 }

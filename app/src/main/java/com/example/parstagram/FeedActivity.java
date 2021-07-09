@@ -1,12 +1,20 @@
 package com.example.parstagram;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -24,12 +32,78 @@ public class FeedActivity extends AppCompatActivity {
     protected List<Post> allPosts;
     RecyclerView rvPosts;
     private SwipeRefreshLayout swipeContainer;
+    private ImageView feed;
+    private ImageView insta;
+    private ImageView cam;
+    private ImageView cam2;
+    private ImageView profile;
+
 
     @Override
+    protected void onResume() {
+        // fired whenever the user comes back to this activity
+        super.onResume();
 
+        queryPosts();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // fired whenever the activity is first created
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        feed = findViewById(R.id.feed);
+        insta = findViewById(R.id.InstaTop);
+        cam = findViewById(R.id.cam);
+        cam2 = findViewById(R.id.cam2);
+        profile = findViewById(R.id.profile);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FeedActivity.this, LogoutActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+
+
+        cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cam.setImageResource(R.drawable.camera_shadow_fill);
+                Intent i = new Intent(FeedActivity.this, MainActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+        cam2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(FeedActivity.this, MainActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+
+
+        feed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FeedActivity.this, FeedActivity.class);
+                startActivity(i);
+            }
+        });
+
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -57,9 +131,23 @@ public class FeedActivity extends AppCompatActivity {
         rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
-        // query posts from Parstagram
-        queryPosts();
+
+        // Define ActionBar object
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+
+        // Define ColorDrawable object and parse color
+        // using parseColor method
+        // with color hash code as its parameter
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#ffffff"));
+
+        // Set BackgroundDrawable
+        actionBar.setBackgroundDrawable(colorDrawable);
+        actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + getString(R.string.app_name) + "</font>"));
     }
+
+
 
 
 
@@ -78,17 +166,12 @@ public class FeedActivity extends AppCompatActivity {
             public void done(List<Post> posts, ParseException e) {
                 // check for errors
                 if (e != null) {
-                    Log.e("FeedActivity", "Issue with getting posts", e);
                     return;
                 }
                 // e == null --> success
 
-                // for debugging purposes let's print every post description to logcat
-                for (Post post : posts) {
-                    Log.i("FeedActivity", "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-
                 // save received posts to list and notify adapter of new data
+                allPosts.clear();
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
 
